@@ -62,11 +62,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let celda = tablaTareas.dequeueReusableCell(withIdentifier: "celda", for: indexPath)
         celda.textLabel?.text = listadeTareas[indexPath.row].titulo
         celda.detailTextLabel?.text = "\(listadeTareas[indexPath.row].fecha ?? Date.now)"
-        
+        celda.imageView?.image = UIImage(data: listadeTareas[indexPath.row].image!)!
+        celda.imageView?.layer.cornerRadius = 15
         return celda
     }
     @IBAction func btnAgregarTarea(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "nuevo", sender: self)
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let accionEliminar = UIContextualAction(style: .normal, title: "borrar") { _, _, _ in
+            self.contexto.delete(self.listadeTareas[indexPath.row])
+            self.listadeTareas.remove(at: indexPath.row)
+            self.tablaTareas.reloadData()
+        
+            
+        }
+        accionEliminar.image = UIImage(systemName: "trash")
+        accionEliminar.backgroundColor = .red
+        
+        return UISwipeActionsConfiguration(actions: [accionEliminar])
     }
 }
 

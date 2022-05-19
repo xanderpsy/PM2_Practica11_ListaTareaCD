@@ -40,10 +40,14 @@ class NuevaTareaViewController: UIViewController, UITextFieldDelegate {
         print("cambiar imagen")
         //crear un vc temporal para acceder a la libreria de fotos del dispositivo
         let vc = UIImagePickerController()
+        //click .camera
         vc.sourceType = .photoLibrary
         vc.delegate = self
         vc.allowsEditing = true
         present(vc, animated: true)
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     @IBAction func btnGuardarTarea(_ sender: UIBarButtonItem) {
